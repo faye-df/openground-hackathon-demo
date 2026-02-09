@@ -1,0 +1,8 @@
+{
+  "name": "Common Ground (共鸣场)",
+  "description": "An AI-powered urban social tool that transforms environmental observations into physical collaboration tasks to break 'social deserts'.",
+  "requestFramePermissions": [
+    "camera",
+    "geolocation"
+  ]
+}
