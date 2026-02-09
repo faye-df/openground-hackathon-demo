@@ -1,20 +1,114 @@
 <div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+
+# 🌐 Open Ground 共鸣场
+
+### *Open Happiness, Spark Resonance*
+
+**Hackathon Track: 🧠 Marathon Agent**
+
+[![Made with Gemini](https://img.shields.io/badge/Made%20with-Gemini%203%20Pro-blue?style=for-the-badge&logo=google)](https://ai.google.dev/)
+
 </div>
 
-# Run and deploy your AI Studio app
+---
 
-This contains everything you need to run your app locally.
+## 🎯 What is Open Ground?
 
-View your app in AI Studio: https://ai.studio/apps/drive/1rMcquDuQHso30EwxCTH4WXNtpTJsG0yA
+An **autonomous urban mission orchestrator** that transforms everyday observations into **collaborative micro-missions** between strangers. Unlike simple prompt wrappers, Open Ground demonstrates true **agentic capabilities**:
 
-## Run Locally
+| Feature | Description |
+|---------|-------------|
+| 🔧 **Multi-step Tool Orchestration** | Agent chains: location → weather → time → nearby search |
+| 📸 **Photo Verification Loops** | Gemini Vision analyzes completion photos & provides feedback |
+| 🔄 **Self-Correction** | Adapts missions when conditions change (weather, time) |
+| 💭 **Agent Transparency** | Real-time thought streaming visible in UI |
 
-**Prerequisites:**  Node.js
+---
 
+## 🚀 Demo Flow
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+```
+1. User observes → "There's a faded bulletin board near the cafe"
+2. Agent gathers context → 📍 Location → 🌤️ Weather → ⏰ Time → 🔍 Nearby
+3. Agent reasons → Plans adaptive multi-step mission
+4. Mission generated → With verification criteria & secret code
+5. Photo verification → Gemini analyzes completion
+6. Self-correction → Adapts if conditions change
+```
+
+---
+
+## 🛠️ Technical Architecture
+
+```
+┌─────────────────────────────────────────────────────┐
+│                   Open Ground App                    │
+├─────────────────────────────────────────────────────┤
+│  AgentMission.tsx     │  Real-time thought streaming │
+│  agentOrchestrator.ts │  Multi-step tool execution   │
+│  tools.ts             │  Location/Weather/Time APIs  │
+│  geminiService.ts     │  Gemini 3 Flash integration  │
+└─────────────────────────────────────────────────────┘
+                           │
+                           ▼
+              ┌─────────────────────────┐
+              │   Gemini 3 Flash API    │
+              │  • JSON Schema output   │
+              │  • Vision analysis      │
+              │  • System instructions  │
+              └─────────────────────────┘
+```
+
+---
+
+## 📦 Key Files
+
+| File | Purpose |
+|------|---------|
+| `services/agentOrchestrator.ts` | Core agent with tool calls, verification, adaptation |
+| `services/agentTypes.ts` | TypeScript types for agent state |
+| `services/tools.ts` | Mock APIs for location, weather, time |
+| `components/AgentMission.tsx` | Agent transparency UI with thought streaming |
+
+---
+
+## 🏃 Run Locally
+
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Set your Gemini API key in .env.local
+VITE_GEMINI_API_KEY=your_api_key_here
+
+# 3. Run the app
+npm run dev
+```
+
+---
+
+## 🎪 Why Marathon Agent Track?
+
+| Criteria | Our Implementation |
+|----------|-------------------|
+| **Multi-step tool calls** | ✅ 4+ chained tools per mission |
+| **Agentic loop** | ✅ Plan → Execute → Verify → Adapt |
+| **Self-correction** | ✅ Weather/time adaptation |
+| **Long-running state** | ✅ Mission state persisted across steps |
+| **Visible reasoning** | ✅ Thoughts streamed to UI |
+
+---
+
+## 🌟 Inspired By
+
+- **Coca-Cola's "Open Happiness"** philosophy
+- **PERMA model** of positive psychology
+- **Urban acupuncture** design methodology
+
+---
+
+<div align="center">
+
+*Every micro-collision makes our city less of an island. Let's create joy together.*
+
+</div>
