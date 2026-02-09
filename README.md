@@ -67,7 +67,7 @@ An **autonomous urban mission orchestrator** that transforms everyday observatio
 |------|---------|
 | `services/agentOrchestrator.ts` | Core agent with tool calls, verification, adaptation |
 | `services/agentTypes.ts` | TypeScript types for agent state |
-| `services/tools.ts` | Mock APIs for location, weather, time |
+| `services/tools.ts` | Real APIs: Browser Geolocation, Open-Meteo weather, OpenStreetMap |
 | `components/AgentMission.tsx` | Agent transparency UI with thought streaming |
 
 ---
@@ -84,6 +84,13 @@ VITE_GEMINI_API_KEY=your_api_key_here
 # 3. Run the app
 npm run dev
 ```
+
+## ☁️ Deploy to Vercel
+
+1. Push your code to GitHub
+2. Import the repo in [Vercel](https://vercel.com)
+3. Add environment variable: `VITE_GEMINI_API_KEY`
+4. Deploy!
 
 ---
 
