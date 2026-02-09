@@ -14,9 +14,10 @@ const AgentMission: React.FC<AgentMissionProps> = ({ observation, image, onCompl
     const [thoughts, setThoughts] = useState<AgentThought[]>([]);
     const [toolCalls, setToolCalls] = useState<ToolCall[]>([]);
     const [currentPlan, setCurrentPlan] = useState<MissionPlan | null>(null);
-    const [phase, setPhase] = useState<'planning' | 'ready' | 'executing' | 'verifying'>('planning');
+    const [phase, setPhase] = useState<'planning' | 'ready' | 'executing' | 'verifying' | 'error'>('planning');
     const [verifyingStep, setVerifyingStep] = useState<string | null>(null);
     const [agent, setAgent] = useState<MissionAgent | null>(null);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const missionId = Math.random().toString(36).substr(2, 9);
@@ -43,11 +44,17 @@ const AgentMission: React.FC<AgentMissionProps> = ({ observation, image, onCompl
         const missionAgent = createMissionAgent(missionId, handleEvent);
         setAgent(missionAgent);
 
-        // Start planning
-        missionAgent.planMission(observation, image).then(plan => {
-            setCurrentPlan(plan);
-            setPhase('ready');
-        });
+        // Start planning with error handling
+        missionAgent.planMission(observation, image)
+            .then(plan => {
+                setCurrentPlan(plan);
+                setPhase('ready');
+            })
+            .catch(err => {
+                console.error('Mission planning failed:', err);
+                setError(err.message || 'Failed to generate mission. Please check API key configuration.');
+                setPhase('error');
+            });
     }, [observation, image]);
 
     const handleStartMission = () => {
@@ -114,10 +121,10 @@ const AgentMission: React.FC<AgentMissionProps> = ({ observation, image, onCompl
                             <div
                                 key={tool.id}
                                 className={`flex-shrink-0 flex items-center gap-2 px-3 py-2 rounded-xl border text-sm transition-all ${tool.status === 'completed'
-                                        ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
-                                        : tool.status === 'running'
-                                            ? 'bg-amber-50 border-amber-200 text-amber-700 animate-pulse'
-                                            : 'bg-slate-50 border-slate-200 text-slate-600'
+                                    ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
+                                    : tool.status === 'running'
+                                        ? 'bg-amber-50 border-amber-200 text-amber-700 animate-pulse'
+                                        : 'bg-slate-50 border-slate-200 text-slate-600'
                                     }`}
                             >
                                 <span>{getToolIcon(tool.name)}</span>
@@ -154,8 +161,37 @@ const AgentMission: React.FC<AgentMissionProps> = ({ observation, image, onCompl
                             <span className="text-sm">Thinking...</span>
                         </div>
                     )}
+                    {phase === 'error' && (
+                        <div className="flex items-center gap-2 text-red-400">
+                            <span>❌</span>
+                            <span className="text-sm">Error: {error}</span>
+                        </div>
+                    )}
                 </div>
             </div>
+
+            {/* Error State with Retry */}
+            {phase === 'error' && (
+                <div className="bg-red-50 border border-red-200 rounded-2xl p-5 space-y-4">
+                    <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center">
+                            <span className="text-red-500 text-xl">⚠️</span>
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-red-800">Mission Planning Failed</h3>
+                            <p className="text-red-600 text-sm mt-1">{error}</p>
+                        </div>
+                    </div>
+                    <div className="flex gap-3">
+                        <button
+                            onClick={onCancel}
+                            className="flex-1 bg-white border border-red-200 text-red-700 font-medium py-3 rounded-xl hover:bg-red-50 transition-colors"
+                        >
+                            Go Back
+                        </button>
+                    </div>
+                </div>
+            )}
 
             {/* Mission Plan Preview */}
             {currentPlan && (
